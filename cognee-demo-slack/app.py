@@ -2,7 +2,9 @@ import hashlib
 import hmac
 import os
 import ssl
+import sys
 import time
+from pathlib import Path
 
 import aiohttp
 import certifi
@@ -13,6 +15,12 @@ from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 
 load_dotenv()
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT / "seal-bot" / "src"))
+
+from seal_bot.service import SealMatcher
+from seal_bot.slack import SlackImageResolver, match_response
 
 SIGNING_SECRET = os.environ.get("SLACK_SIGNING_SECRET", "")
 DATASET = "slack"
@@ -55,6 +63,33 @@ async def handle_command(command: str, text: str) -> dict:
             return {"response_type": "ephemeral", "text": "No memory found for that yet."}
         lines = [extract_text(r) for r in results]
         return {"response_type": "ephemeral", "text": "\n".join(f"• {l}" for l in lines if l)}
+
+    if command == "/seal-match":
+        resolver = SlackImageResolver()
+        async with resolver.resolve(text) as image:
+            matcher = SealMatcher()
+            try:
+                result = matcher.match_image(
+                    image.path,
+                    query_label=image.original_name,
+                    actor="slack",
+                )
+                return match_response(result)
+            finally:
+                matcher.close()
+
+    if command == "/seal-confirm":
+        parts = text.split()
+        if len(parts) != 2:
+            return {"response_type": "ephemeral", "text": "Usage: `/seal-confirm <case-id> <SKU>`"}
+        case_id, sku = parts
+        matcher = SealMatcher()
+        try:
+            fact = matcher.confirm(case_id, sku, actor="slack")
+            await cognee.remember(fact, dataset_name=DATASET)
+            return {"response_type": "in_channel", "text": f"✅ {fact}"}
+        finally:
+            matcher.close()
 
     return {"response_type": "ephemeral", "text": f"Unknown command: {command}"}
 

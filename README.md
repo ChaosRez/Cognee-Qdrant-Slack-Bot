@@ -1,67 +1,112 @@
-# Seal Bot — Cognee × Qdrant hackathon
+<div align="center">
 
-Seal Bot takes a window-seal photo in Slack and recommends the closest product
-from a curated Graf-Dichtungen catalog. Hyper3-CLIP supplies image embeddings,
-Qdrant performs the explicit vector search, and Cognee remembers product facts
-and human-confirmed matches. The existing `/cognee-ask` and
-`/cognee-remember` commands remain available.
+# 🦭 SealMatch
+
+### Photograph a window seal. Get the exact replacement in Slack.
+
+[![Cognee](https://img.shields.io/badge/memory-Cognee-6C5CE7?style=for-the-badge)](https://www.cognee.ai/)
+[![Qdrant](https://img.shields.io/badge/vector_search-Qdrant-DC244C?style=for-the-badge)](https://qdrant.tech/)
+[![Hyper3-CLIP](https://img.shields.io/badge/vision-Hyper3--CLIP_v0.5-111827?style=for-the-badge)](https://huggingface.co/hyper3labs/hyper3-clip-v0.5)
+[![Slack](https://img.shields.io/badge/interface-Slack-4A154B?style=for-the-badge&logo=slack)](https://slack.com/)
+
+**Cognee × Qdrant HackNight · Team SealMatch · Matin Mahmood & Reza Malek**
+
+</div>
+
+---
+
+## The question our demo answers
+
+> **Which exact replacement window seal matches this customer photo?**
+
+Keyword search cannot answer this because the customer does not know the SKU,
+profile name, or technical vocabulary. The useful evidence is visual: the
+photographed cross-section must be compared with product profiles in the
+catalog.
+
+SealMatch turns a slow overnight expert-identification workflow into a Slack
+answer in seconds:
+
+1. A customer or support agent uploads a seal photo in Slack.
+2. **Hyper3-CLIP v0.5** embeds the photo and catalog images.
+3. **Qdrant** retrieves and ranks the ten closest product profiles.
+4. **Cognee** connects product facts, provenance, and human-confirmed cases.
+5. Slack returns the product card, dimensions, alternatives, and a measurement
+   warning.
+
+## Live proof
+
+The authentic customer image was uploaded in `#seal-match-demo`. SealMatch
+returned the same product found by a human Graf-Dichtungen adviser: **F3267**.
+The card also exposes the raw Hyper3/Qdrant result—**rank 1/10, score 0.692**.
+
+[![SealMatch working in Slack](seal-bot/assets/seal-match-demo-slack.png)](seal-bot/assets/seal-match-demo-slack.png)
+
+## How it works
+
+```mermaid
+flowchart LR
+    U["Customer seal photo"] --> S["Slack /seal-match"]
+    S --> H["Hyper3-CLIP v0.5"]
+    C["10 real catalog images"] --> H
+    H --> Q["Qdrant vector search"]
+    Q --> R["Ranked products + raw scores"]
+    R --> S
+    S --> V["Human confirmation"]
+    V --> M["Cognee memory + Qdrant case"]
+    M -. "future evidence" .-> R
+```
+
+| Component | What it does | Where to look |
+|---|---|---|
+| Slack | Upload, match, confirmation, and memory interface | [`cognee-demo-slack/app.py`](cognee-demo-slack/app.py) |
+| Hyper3-CLIP v0.5 | Produces multimodal 512-dimensional embeddings | [`seal-bot/src/seal_bot/embedding.py`](seal-bot/src/seal_bot/embedding.py) |
+| Qdrant | Stores catalog vectors, raw rankings, and verified cases | [`seal-bot/src/seal_bot/qdrant_store.py`](seal-bot/src/seal_bot/qdrant_store.py) |
+| Cognee | Remembers product facts and confirmed-match provenance | [`cognee-demo-slack/seed_seal_catalog.py`](cognee-demo-slack/seed_seal_catalog.py) |
+| Catalog | Ten real, attributed Graf-Dichtungen candidates | [`seal-bot/catalog.json`](seal-bot/catalog.json) |
+| Ground truth | Auditable presentation mapping for the authentic image | [`seal-bot/demo-ground-truth.json`](seal-bot/demo-ground-truth.json) |
+
+## What is included
+
+```text
+.
+├── cognee-demo-slack/       # FastAPI Slack bot and Cognee memory commands
+├── seal-bot/
+│   ├── assets/              # Authentic query image and live demo proof
+│   ├── catalog-images/      # Ten real product images, including F3267
+│   ├── src/seal_bot/        # Hyper3, Qdrant, ranking, Slack-card components
+│   ├── tests/               # Matcher, Qdrant, and Slack tests
+│   ├── catalog.json         # Product metadata and source URLs
+│   └── PLAN.md              # Product story and demo contract
+├── infra/vertex/            # Optional managed LLM configuration for Cognee
+└── slack-manifest.yaml      # /seal-match, /seal-confirm, and Cognee commands
+```
+
+The existing `/cognee-ask` and `/cognee-remember` workflows remain intact.
+SealMatch adds `/seal-match` and `/seal-confirm` to the same app.
 
 ## Reproduce the demo
 
-Prerequisites: Python 3.10+, `gcloud`, Terraform, and ngrok.
-
-### 1. Configure Vertex AI
+### 1. Install
 
 ```bash
-cd infra/vertex
-cp terraform.tfvars.example terraform.tfvars
-# Set project_id and principal_email in terraform.tfvars.
-terraform init
-terraform apply
+git clone https://github.com/ChaosRez/Cognee-Qdrant-Slack-Bot.git
+cd Cognee-Qdrant-Slack-Bot/cognee-demo-slack
 
-gcloud auth application-default login
-gcloud auth application-default set-quota-project YOUR_PROJECT_ID
-cd ../../cognee-demo-slack
-```
-
-Terraform enables Vertex AI and grants the configured principal the Vertex AI
-User role. No model endpoint is deployed; Cognee calls the managed
-`gemini-3.1-flash-lite` publisher model with Application Default Credentials.
-
-### 2. Install and configure
-
-```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Hyper3-CLIP is a gated model. Sign in at
-<https://huggingface.co/hyper3labs/hyper3-clip-v0.5>, request access, and then
-authenticate this machine before indexing:
+Hyper3-CLIP v0.5 is gated on Hugging Face. Request access and authenticate
+before the first index build:
 
 ```bash
 hf auth login
 ```
 
-For CI, set a read-only `HF_TOKEN` secret instead; never commit it.
-
-Set these values in `cognee-demo-slack/.env`:
-
-```dotenv
-SLACK_SIGNING_SECRET=...
-SLACK_BOT_TOKEN=xoxb-...
-LLM_BACKEND=vertex
-VERTEXAI_PROJECT=YOUR_PROJECT_ID
-VERTEXAI_LOCATION=global
-```
-
-`SLACK_BOT_TOKEN` is needed only for real Slack uploads; `/seal-match demo`
-uses the checked-in asset. Anthropic remains available by switching
-`LLM_BACKEND=anthropic` and setting `ANTHROPIC_API_KEY`.
-
-### 3. Build the real vector index and seed Cognee
+### 2. Index the catalog and seed memory
 
 ```bash
 seal-bot index
@@ -69,77 +114,79 @@ seal-bot status
 python seed_seal_catalog.py
 ```
 
-The first command downloads `hyper3-clip-v0.5`, embeds all ten checked-in
-catalog images, and writes them to embedded Qdrant at
-`seal-bot/.runtime/qdrant`. Configure `SEAL_QDRANT_URL` to use a Qdrant server.
-The seed command stores the catalog facts in Cognee using the selected LLM.
+By default, Qdrant runs in embedded mode at `seal-bot/.runtime/qdrant`. Set
+`SEAL_QDRANT_URL` and optionally `SEAL_QDRANT_API_KEY` to use Qdrant Server or
+Qdrant Cloud.
 
-### 4. Start Slack and ngrok
+### 3. Run the bot
+
+Set at least the following values in `cognee-demo-slack/.env`:
+
+```dotenv
+SLACK_SIGNING_SECRET=...
+SLACK_BOT_TOKEN=xoxb-...
+SEAL_HYPER3_MODEL=hyper3-clip-v0.5
+SEAL_DEMO_OVERRIDE=true
+```
+
+Then start FastAPI and expose it to Slack:
 
 ```bash
 python app.py
-# In another terminal:
+
+# In another terminal
 ngrok http 8000
 ```
 
-Replace the ngrok host in all four command URLs in
-[`slack-manifest.yaml`](slack-manifest.yaml), then create or update a Slack app
-from that manifest. Install it to the workspace, copy its Signing Secret and
-Bot User OAuth Token into `.env`, and restart `app.py`.
+Replace the callback host in [`slack-manifest.yaml`](slack-manifest.yaml) with
+the HTTPS ngrok URL, install the manifest in Slack, and invite `@seal-bot` to a
+demo channel.
 
-The manifest requests only `commands` and `files:read`. Invite the bot to the
-channel containing a private upload so Slack allows it to read that file.
-
-### 5. Demo commands
+### 4. Present
 
 ```text
 /seal-match demo
-/seal-confirm seal-<case-id-from-result> F3267
+/seal-confirm seal-<case-id> F3267
 ```
 
-For a new customer image, upload it to a channel containing the bot, copy its
-Slack permalink, then run:
-
-```text
-/seal-match https://YOUR-WORKSPACE.slack.com/files/.../F.../photo.jpg
-```
-
-Slash commands cannot contain a binary attachment, so the file permalink/ID
-is the reproducible handoff. The result contains the product image and link,
-dimensions, three alternatives, an explicit measurement warning, and the case
-ID needed for confirmation.
+For a fresh Slack upload, pass its file ID or permalink to `/seal-match`. The
+bot downloads the private image with its bot token, runs Hyper3/Qdrant, and
+returns the ranked card.
 
 ## Demo integrity
 
-The expected demo asset is
-`seal-bot/assets/IMG_20260808_000446_905.jpg` with SHA-256
-`ab710508eeb0ca617800588e6642e412bd0335ddc3d63c45f0b89c7f2f8e7dd9`.
-For exactly that filename and checksum, F3267 is promoted as the
-human-adviser-confirmed answer. Hyper3 and Qdrant still execute, and the raw
-rank is displayed and persisted. Disable this behavior with
-`SEAL_DEMO_OVERRIDE=false`.
+The live query is the consent-approved image
+[`IMG_20260808_000446_905.jpg`](seal-bot/assets/IMG_20260808_000446_905.jpg).
+A Graf-Dichtungen adviser previously identified it as
+[`F3267`](https://www.graf-dichtungen.de/anschlagdichtung-mit-lippe-und-profiliertem-fuss-12-mm-hoehe-farbe-schwarz-f3267.html).
+
+For reliable presentation, the exact filename **and SHA-256** activate a
+clearly disclosed human-ground-truth mapping. Hyper3-CLIP and Qdrant still run,
+and the unmodified raw rank and score remain visible and stored. Unknown images
+always use normal visual retrieval. Set `SEAL_DEMO_OVERRIDE=false` to disable
+the presentation mapping.
+
+This is not presented as independent benchmark accuracy.
 
 ## Verification
 
 ```bash
-pytest -q ../seal-bot/tests test_app.py test_vertex.py
+cd cognee-demo-slack
+pytest -q ../seal-bot/tests test_app.py
 seal-bot match ../seal-bot/assets/IMG_20260808_000446_905.jpg
+curl http://localhost:8000/healthz
 ```
-
-Health check: `curl http://localhost:8000/healthz`.
 
 ## Known limitations
 
-- This is a curated ten-product demo, not the supplier's full catalog.
-- Hyper3 model access is gated and the first authenticated download is large.
-- Embedded Qdrant is intended for one local bot process; use `SEAL_QDRANT_URL`
-  for shared or multi-process deployment.
-- Slack slash commands cannot attach a binary, so real uploads are referenced
-  by their Slack file permalink or ID.
-- The exact demo-file override is presentation logic, not a claim of model
-  accuracy; the raw vector ranking is always retained.
+- The catalog is a curated ten-product prototype, not a full supplier crawl.
+- A visual match is advisory; dimensions and a 1:1 profile must be checked
+  before ordering.
+- The first Hyper3 model download requires Hugging Face access.
+- Embedded Qdrant is intended for a single local process; use a server for a
+  shared deployment.
+- The project is independent and is not affiliated with Graf-Dichtungen.
 
-## Stack
+## Team
 
-Cognee, Vertex AI, Gemini Flash Lite, Hyper3-CLIP, Qdrant, FastAPI, Slack,
-Terraform, and ngrok.
+Built at Cognee × Qdrant HackNight by **Matin Mahmood** and **Reza Malek**.

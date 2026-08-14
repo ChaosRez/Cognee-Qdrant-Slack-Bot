@@ -5,3 +5,6 @@ anthropic
 certifi
 python-dotenv
 python-multipart
+
+# Install the checked-in SealMatch package and its Hyper3/Qdrant dependencies.
+-e ../seal-bot
