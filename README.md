@@ -9,7 +9,7 @@
 [![Hyper3-CLIP](https://img.shields.io/badge/vision-Hyper3--CLIP_v0.5-111827?style=for-the-badge)](https://huggingface.co/hyper3labs/hyper3-clip-v0.5)
 [![Slack](https://img.shields.io/badge/interface-Slack-4A154B?style=for-the-badge&logo=slack)](https://slack.com/)
 
-**Cognee × Qdrant HackNight · Team SealMatch · Matin Mahmood & Reza Malek**
+**[Cognee × Qdrant HackNight](https://luma.com/cognee-m078) · Team SealMatch**
 
 </div>
 
@@ -65,6 +65,29 @@ flowchart LR
 | Cognee | Remembers product facts and confirmed-match provenance | [`cognee-demo-slack/seed_seal_catalog.py`](cognee-demo-slack/seed_seal_catalog.py) |
 | Catalog | Ten real, attributed Graf-Dichtungen candidates | [`seal-bot/catalog.json`](seal-bot/catalog.json) |
 | Ground truth | Auditable presentation mapping for the authentic image | [`seal-bot/demo-ground-truth.json`](seal-bot/demo-ground-truth.json) |
+
+## Stack
+
+| Layer | Technology | Notes |
+|---|---|---|
+| Interface | Slack slash commands | HMAC request signing; 3s ack + async reply via `response_url` |
+| Web service | FastAPI · uvicorn · Python 3.11 | Single endpoint, `/healthz` probe, ngrok tunnel for the demo |
+| Vision | [Hyper3-CLIP v0.5](https://huggingface.co/hyper3labs/hyper3-clip-v0.5) | 512-dim multimodal embeddings; gated model, loaded lazily |
+| Vector search | Qdrant (`qdrant-client` 1.19.0) | Cosine search over `seal_catalog_v1`; every query persisted to `seal_cases_v1` |
+| Memory | Cognee 1.5 (`dev`) | Knowledge graph of product facts and human-confirmed cases |
+| Text embeddings | fastembed `BAAI/bge-small-en-v1.5` | 384-dim, runs locally, no API key |
+| LLM | Google Vertex AI — `gemini-3.1-flash-lite` | Via LiteLLM, authenticated with Google ADC (no API key in `.env`); Anthropic Claude is a drop-in alternate backend |
+| Infrastructure | Terraform | Vertex AI project setup in [`infra/vertex/`](infra/vertex) |
+| Tests | pytest | Deterministic fakes for the embedder and store; live smoke test for Vertex |
+
+Two design decisions worth calling out. **Provider indirection:** one
+`LLM_BACKEND` variable selects Vertex or Anthropic, translated into Cognee's
+expected configuration in
+[`llm_provider.py`](cognee-demo-slack/llm_provider.py) *before* Cognee is
+imported, because it caches LLM config at import time. **Deployment
+flexibility:** Qdrant runs embedded on local disk by default and switches to
+Qdrant Cloud with a single environment variable, so the demo has no external
+dependency at presentation time.
 
 ## What is included
 
@@ -189,4 +212,7 @@ curl http://localhost:8000/healthz
 
 ## Team
 
-Built at Cognee × Qdrant HackNight by **Matin Mahmood** and **Reza Malek**.
+Built at the [Cognee × Qdrant HackNight](https://luma.com/cognee-m078) team SealMatch**.
+
+Event materials submissions:
+[qdrant-labs/Cognee_Qdrant_slack_bot](https://github.com/qdrant-labs/Cognee_Qdrant_slack_bot).
