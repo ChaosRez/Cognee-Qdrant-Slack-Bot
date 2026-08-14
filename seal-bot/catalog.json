@@ -1,0 +1,70 @@
+[
+  {
+    "sku": "F3267",
+    "name": "Anschlagdichtung mit Lippe und profiliertem Fuß, 12 mm Höhe, Farbe schwarz",
+    "family": "Anschlagdichtung",
+    "color": "schwarz",
+    "material": "TPE",
+    "height_mm": 12.0,
+    "width_mm": 4.0,
+    "groove_width_mm": 4.5,
+    "lip": true,
+    "foot_shape": "profiliert",
+    "hollow_chambers": 1,
+    "image_path": "catalog-images/F3267.webp",
+    "image_url": "https://www.graf-dichtungen.de/media/8d/a8/2b/1752347458/F3267-3d_image-1-20240125113750.webp?ts=1752347458",
+    "product_url": "https://www.graf-dichtungen.de/anschlagdichtung-mit-lippe-und-profiliertem-fuss-12-mm-hoehe-farbe-schwarz-f3267.html",
+    "source_note": "Public product page; dimensions verified 2026-08-14. Human adviser matched the 2026-08-13 upload to this SKU.", "selection_reason": "Ground-truth target and the tallest narrow profiled-foot candidate.",
+    "traits": ["long diagonal sealing lip", "arrow-shaped profiled foot", "single hollow chamber", "narrow 4 mm body"]
+  },
+  {
+    "sku": "F2037",
+    "name": "Anschlagdichtung mit Lippe und profiliertem Fuß, 9 mm Höhe, Farbe schwarz",
+    "family": "Anschlagdichtung", "color": "schwarz", "material": "CEGRAN", "height_mm": 11.0, "width_mm": 9.0, "groove_width_mm": 3.5, "lip": true, "foot_shape": "profiliert", "hollow_chambers": 1,
+    "image_path": "catalog-images/F2037.webp", "image_url": "https://www.graf-dichtungen.de/media/6a/5c/c1/1752357711/F2037-3d_image-1-20240125113734.webp?ts=1752357711", "product_url": "https://www.graf-dichtungen.de/anschlagdichtung-mit-lippe-und-profiliertem-fuss-9-mm-hoehe-farbe-schwarz-f2037.html", "source_note": "Public product page.", "selection_reason": "Same lip/profiled-foot family and nearly the same height, but wider body and narrower groove.", "traits": ["lip", "profiled foot", "wider body", "single hollow chamber"]
+  },
+  {
+    "sku": "F2186",
+    "name": "Anschlagdichtung mit Lippe und profiliertem Fuß, 7.8 mm Höhe, Farbe schwarz",
+    "family": "Anschlagdichtung", "color": "schwarz", "material": "CEGRAN", "height_mm": 7.8, "width_mm": 7.8, "groove_width_mm": 4.5, "lip": true, "foot_shape": "profiliert", "hollow_chambers": 1,
+    "image_path": "catalog-images/F2186.webp", "image_url": "https://www.graf-dichtungen.de/media/6d/07/78/1752265089/F2186-3d_image-1-20240125113735.webp?ts=1752265089", "product_url": "https://www.graf-dichtungen.de/anschlagdichtung-mit-lippe-und-profiliertem-fuss-7-5-mm-hoehe-farbe-schwarz-f2186.html", "source_note": "Public product page.", "selection_reason": "Same family and groove width, but a much shorter, wider cross-section.", "traits": ["short lip", "profiled foot", "compact body", "single hollow chamber"]
+  },
+  {
+    "sku": "F0737",
+    "name": "Anschlagdichtung mit Lippe und profiliertem Fuß, 7 mm Höhe, Farbe schwarz",
+    "family": "Anschlagdichtung", "color": "schwarz", "material": "TPE", "height_mm": 7.0, "width_mm": null, "groove_width_mm": null, "lip": true, "foot_shape": "profiliert", "hollow_chambers": 1,
+    "image_path": "catalog-images/F0737.webp", "image_url": "https://www.graf-dichtungen.de/media/53/2f/be/1752344190/F0737-3d_image-1-20240125084411.webp?ts=1752344190", "product_url": "https://www.graf-dichtungen.de/anschlagdichtung-mit-lippe-und-profiliertem-fuss-7-mm-hoehe-farbe-schwarz-f0737.html", "source_note": "Public product page.", "selection_reason": "Same family and silhouette vocabulary at a much smaller height.", "traits": ["very short profile", "lip", "profiled foot"]
+  },
+  {
+    "sku": "F0757",
+    "name": "Anschlagdichtung mit Lippe und profiliertem Fuß, 10 mm Höhe, Farbe schwarz",
+    "family": "Anschlagdichtung", "color": "schwarz", "material": "CEGRAN", "height_mm": 10.0, "width_mm": 6.0, "groove_width_mm": null, "lip": true, "foot_shape": "profiliert", "hollow_chambers": 1,
+    "image_path": "catalog-images/F0757.webp", "image_url": "https://www.graf-dichtungen.de/media/b7/27/f8/1752349745/F0757-3d_image-1-20240125084411.webp?ts=1752349745", "product_url": "https://www.graf-dichtungen.de/tuerrahmen-dichtung.htmlanschlagdichtung-mit-lippe-und-profiliertem-fuss-6-mm-breite-farbe-schwarz-f0757.html", "source_note": "Public product page.", "selection_reason": "Same family, one chamber and profiled foot; dimensions are close enough to confuse a phone photo.", "traits": ["medium height", "lip", "profiled foot", "6 mm width"]
+  },
+  {
+    "sku": "F2149",
+    "name": "Anschlagdichtung mit Lippe und glattem Fuß, 5 mm Höhe, Farbe schwarz",
+    "family": "Anschlagdichtung", "color": "schwarz", "material": "TPE", "height_mm": 5.0, "width_mm": 12.0, "groove_width_mm": 4.0, "lip": true, "foot_shape": "glatt", "hollow_chambers": 0,
+    "image_path": "catalog-images/F2149.webp", "image_url": "https://www.graf-dichtungen.de/media/6f/06/fb/1752357575/F2149-3d_image-1-20240125113735.webp?ts=1752357575", "product_url": "https://www.graf-dichtungen.de/lippendichtung-fenster/anschlagdichtung-fuer-metallfenster-4-mm-fussbreite-farbe-schwarz-f2149.html", "source_note": "Public product page.", "selection_reason": "Same lip and near-identical foot-width cue, but smooth foot and no chamber.", "traits": ["flat smooth foot", "long lip", "no hollow chamber", "wide 12 mm profile"]
+  },
+  {
+    "sku": "F2525",
+    "name": "Anschlagdichtung mit Lippe und glattem Fuß, 6 mm Höhe, Farbe schwarz",
+    "family": "Anschlagdichtung", "color": "schwarz", "material": "CEGRAN", "height_mm": 6.0, "width_mm": 11.1, "groove_width_mm": null, "lip": true, "foot_shape": "glatt", "hollow_chambers": 0,
+    "image_path": "catalog-images/F2525.webp", "image_url": "https://www.graf-dichtungen.de/media/43/59/db/1752278729/F2525-3d_image-1-20240125113738.webp?ts=1752278729", "product_url": "https://www.graf-dichtungen.de/anschlagdichtung-mit-lippe-und-glattem-fuss-5-5-mm-hoehe-farbe-schwarz-f2525.html", "source_note": "Public product page.", "selection_reason": "Lip seal with a visually confusable flat foot, testing whether foot geometry is respected.", "traits": ["smooth foot", "lip", "flat groove", "no hollow chamber"]
+  },
+  {
+    "sku": "F1720",
+    "name": "Anschlagdichtung für Kömmerling Fenster, 8 mm Höhe, Farbe schwarz",
+    "family": "Anschlagdichtung", "color": "schwarz", "material": "CEGRAN", "height_mm": 8.0, "width_mm": null, "groove_width_mm": null, "lip": true, "foot_shape": "profiliert", "hollow_chambers": 1,
+    "image_path": "catalog-images/F1720.webp", "image_url": "https://www.graf-dichtungen.de/media/15/9b/3f/1752522437/F1720-3d_image-1-20240125085831.webp?ts=1752522437", "product_url": "https://www.graf-dichtungen.de/anschlagdichtung-fuer-koemmerling-fenster-8-mm-hoehe-farbe-schwarz-f1720.html", "source_note": "Public product page.", "selection_reason": "Same black lip/profiled-foot class in a brand-specific compact form.", "traits": ["Kömmerling profile", "lip", "profiled foot", "compact"]
+  },
+  {
+    "sku": "F3223", "name": "Anschlagdichtung für Schüco Fenster, 10 mm Höhe, Farbe schwarz", "family": "Anschlagdichtung", "color": "schwarz", "material": "CEGRAN", "height_mm": 10.0, "width_mm": 8.0, "groove_width_mm": null, "lip": true, "foot_shape": "profiliert", "hollow_chambers": 1,
+    "image_path": "catalog-images/F3223.webp", "image_url": "https://www.graf-dichtungen.de/media/99/b7/4f/1752356861/F3223-3d_image-1-20240125113749.webp?ts=1752356861", "product_url": "https://www.graf-dichtungen.de/anschlagdichtung-fuer-schueco-fenster-10-mm-hoehe-farbe-schwarz-f3223.html", "source_note": "Public product page.", "selection_reason": "Same lip, profiled foot, chamber count and near height; a strong shape confounder.", "traits": ["Schüco profile", "lip", "profiled foot", "single hollow chamber"]
+  },
+  {
+    "sku": "F1136", "name": "Anschlagdichtung mit Lippe für Rehau Fenster, 11 mm Höhe, Farbe schwarz", "family": "Anschlagdichtung", "color": "schwarz", "material": "CEGRAN", "height_mm": 11.0, "width_mm": 9.0, "groove_width_mm": 5.5, "lip": true, "foot_shape": "profiliert", "hollow_chambers": 1,
+    "image_path": "catalog-images/F1136.webp", "image_url": "https://www.graf-dichtungen.de/media/a7/9b/bb/1752270460/F1136-3d_image-1-20240125084414.webp?ts=1752270460", "product_url": "https://www.graf-dichtungen.de/anschlagdichtung-mit-lippe-fuer-rehau-fenster-10-5-mm-hoehe-farbe-schwarz-f1136.html", "source_note": "Public product page.", "selection_reason": "Closest dimension confounder: 11 mm high, lip, profiled foot and one chamber, but wider groove/body.", "traits": ["Rehau profile", "lip", "profiled foot", "single hollow chamber", "wide body"]
+  }
+]
