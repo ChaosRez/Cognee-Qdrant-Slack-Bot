@@ -5,4 +5,11 @@ __pycache__/
 *.py[cod]
 .env
 .env.*
-!.env.example
+
+# Terraform local/generated files. Keep .tf sources, the lock file, and
+# terraform.tfvars.example tracked.
+infra/**/.terraform/
+infra/**/*.tfstate
+infra/**/*.tfstate.*
+infra/**/*.tfplan
+infra/**/terraform.tfvars
