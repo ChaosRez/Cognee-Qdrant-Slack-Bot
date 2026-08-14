@@ -3,8 +3,12 @@
 .venv/
 __pycache__/
 *.py[cod]
+.pytest_cache/
 .env
 .env.*
+
+# Generated local vector database; source catalog and images stay tracked.
+seal-bot/.runtime/
 
 # Terraform local/generated files. Keep .tf sources, the lock file, and
 # terraform.tfvars.example tracked.

@@ -1,0 +1,5 @@
+aiohttp<4,>=3.9
+hyper-models[ml]==0.3.0
+numpy<3,>=1.26
+Pillow<13,>=10
+qdrant-client<2,>=1.15

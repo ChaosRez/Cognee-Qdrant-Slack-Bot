@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: seal-bot
+Version: 0.1.0
+Summary: Hyper3-CLIP and Qdrant product matching for the Cognee Slack demo
+Requires-Python: >=3.10
+Requires-Dist: aiohttp<4,>=3.9
+Requires-Dist: hyper-models[ml]==0.3.0
+Requires-Dist: numpy<3,>=1.26
+Requires-Dist: Pillow<13,>=10
+Requires-Dist: qdrant-client<2,>=1.15

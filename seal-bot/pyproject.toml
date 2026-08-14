@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seal-bot"
+version = "0.1.0"
+description = "Hyper3-CLIP and Qdrant product matching for the Cognee Slack demo"
+requires-python = ">=3.10"
+dependencies = [
+  "aiohttp>=3.9,<4",
+  "hyper-models[ml]==0.3.0",
+  "numpy>=1.26,<3",
+  "Pillow>=10,<13",
+  "python-dotenv>=1,<2",
+  "qdrant-client==1.19.0",
+]
+
+[project.scripts]
+seal-bot = "seal_bot.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
